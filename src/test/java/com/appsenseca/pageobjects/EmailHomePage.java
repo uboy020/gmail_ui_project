@@ -8,26 +8,39 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.appsenseca.util.WebUtil;
+
 public class EmailHomePage {
 
 	public SignInPage signOut(WebDriver driver) {
-		WebElement profileButton = driver.findElement(By.cssSelector(".gb_8a.gbii"));
-		profileButton.click();
-		WebElement signOut = driver.findElement(By.id("gb_71"));
-		signOut.click();
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
+		WebUtil.click(driver, By.cssSelector(".gb_8a.gbii"));
 		
+		WebUtil.click(driver, By.id("gb_71"));
+		
+		WebUtil.waitForElementVisible(driver, By.id("signIn"));
+	
 		return PageFactory.initElements(driver, SignInPage.class);
 	}
 
-	public boolean isElementsExist(WebDriver driver) {
-		return driver.findElements(By.partialLinkText("Inbox")).size() > 0;
+	public boolean isInboxExist(WebDriver driver) {
+		return WebUtil.isElementExist(driver, By.partialLinkText("Inbox"));
 	}
 
-	public boolean isSignInButtonExist(WebDriver driver) {
-		return driver.findElements(By.id("signIn")).size() > 0;
+
+	public ComposeEmailPage clickComposeButton(WebDriver driver) {
+		WebUtil.click(driver, By.cssSelector("div[role='button'][gh = 'cm']"));
 		
+		return PageFactory.initElements(driver, ComposeEmailPage.class);
 	}
 
+	public void clickInboxWithNewEmail(WebDriver driver) {
+		WebUtil.waitForElementVisible(driver, By.linkText("Inbox (4)"));
+		WebUtil.click(driver, By.linkText("Inbox (4)"));
+	}
+
+	public EmailViewPage clickNewEmail(WebDriver driver) {
+		WebUtil.waitForElementVisible(driver, By.cssSelector("div[class='y6'] span[id] b"));
+		WebUtil.click(driver, By.cssSelector("div[class='y6'] span[id] b"));
+		return PageFactory.initElements(driver, EmailViewPage.class);
+	}
 }

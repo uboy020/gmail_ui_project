@@ -7,31 +7,30 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.appsenseca.util.WebUtil;
+
 public class SignInPage {
 
 	public void fillInUsername(WebDriver driver, String s) {
-		WebElement usernameTextbox = driver.findElement(By.id("Email"));
-		usernameTextbox.clear();
-		usernameTextbox.sendKeys(s);
-		WebElement nextButton = driver.findElement(By.id("next"));
-		nextButton.click();		
+		WebUtil.clearAndSendKeys(driver, By.id("Email"), s);
+		WebUtil.click(driver, By.id("next"));		
 	}
 
 	public void fillInPassword(WebDriver driver, String s) {
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Passwd")));
-		WebElement passwordTextbox = driver.findElement(By.id("Passwd"));
-		passwordTextbox.clear();
-		passwordTextbox.sendKeys(s);	
+		WebUtil.waitForElementVisible(driver, By.id("Passwd"));
+		WebUtil.clearAndSendKeys(driver, By.id("Passwd"), s);
 	}
 
-	public static EmailHomePage clickSignIn(WebDriver driver) {
-		WebElement signInButton = driver.findElement(By.id("signIn"));
-		signInButton.click();
+	public EmailHomePage clickSignIn(WebDriver driver) {
+		WebUtil.click(driver, By.id("signIn"));
 		
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
+		WebUtil.waitForElementVisible(driver, By.partialLinkText("Inbox"));
+		
 		return PageFactory.initElements(driver, EmailHomePage.class);
+	}
+	
+	public boolean isSignInButtonExist(WebDriver driver) {
+		return WebUtil.isElementExist(driver, By.id("signIn"));
 	}
 
 }
