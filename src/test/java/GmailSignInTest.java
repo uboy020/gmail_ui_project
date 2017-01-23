@@ -10,6 +10,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.appsenseca.pageobjects.EmailHomePage;
+import com.appsenseca.pageobjects.SignInPage;
+import com.appsenseca.util.WebUtil;
+
 public class GmailSignInTest {
 	WebDriver driver;
 	WebDriverWait wait;
@@ -24,34 +28,20 @@ public class GmailSignInTest {
 	@Test
 	public void gmailLoginShouldBeSuccessful() throws InterruptedException{
 		//1.Go to Gmail website
-		driver.get("http://gmail.com");
+		SignInPage signInPage = WebUtil.goToSignInPage(driver);
 		//2. Fill in username
-		WebElement usernameTextbox = driver.findElement(By.id("Email"));
-		usernameTextbox.clear();
-		usernameTextbox.sendKeys("021cleo@gmail.com");
-		WebElement nextButton = driver.findElement(By.id("next"));
-		nextButton.click();
+		signInPage.fillInUsername(driver, "021cleo@gmail.com");
 		//3. Fill in password
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Passwd")));
-		WebElement passwordTextbox = driver.findElement(By.id("Passwd"));
-		passwordTextbox.clear();
-		passwordTextbox.sendKeys("cleo1234");
+		signInPage.fillInPassword(driver, "cleo1234");
 		//4. Click sign in
-		WebElement signInButton = driver.findElement(By.id("signIn"));
-		signInButton.click();
+		EmailHomePage emailHomePage = SignInPage.clickSignIn(driver);
 		//5. Verify sign in
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
-		Assert.assertTrue("Inbox should exist", driver.findElements(By.partialLinkText("Inbox")).size() > 0);
+		Assert.assertTrue("Inbox should exist",emailHomePage.isElementsExist(driver));
+		
 		//6. Sign out
-		WebElement profileButton = driver.findElement(By.cssSelector(".gb_8a.gbii"));
-		profileButton.click();
-		
-		WebElement signOut = driver.findElement(By.id("gb_71"));
-		signOut.click();
-		
+		signInPage = emailHomePage.signOut(driver);
 		//7. verify user did sign out
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
-		Assert.assertTrue("Should show sign in page", driver.findElements(By.id("signIn")).size() > 0);
+		Assert.assertTrue("Should show sign in page", emailHomePage.isSignInButtonExist(driver));
 	}
 	
 	@Test
