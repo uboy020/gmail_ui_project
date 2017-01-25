@@ -13,7 +13,7 @@ import com.appsenseca.util.WebUtil;
 public class EmailHomePage {
 
 	public SignInPage signOut(WebDriver driver) {
-		WebUtil.click(driver, By.cssSelector(".gb_8a.gbii"));
+		WebUtil.click(driver, By.cssSelector(".gb_9a.gbii"));
 		
 		WebUtil.click(driver, By.id("gb_71"));
 		

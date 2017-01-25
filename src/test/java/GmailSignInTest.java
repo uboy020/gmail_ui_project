@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.After;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -10,6 +11,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.appsenseca.categories.Critical;
+import com.appsenseca.categories.Major;
 import com.appsenseca.pageobjects.ComposeEmailPage;
 import com.appsenseca.pageobjects.EmailHomePage;
 import com.appsenseca.pageobjects.EmailViewPage;
@@ -25,6 +28,7 @@ public class GmailSignInTest {
 		driver = new ChromeDriver();
 	}
 	
+	@Category({Critical.class})
 	@Test
 	public void gmailLoginShouldBeSuccessful() throws InterruptedException{
 		//1.Go to Gmail website
@@ -44,6 +48,7 @@ public class GmailSignInTest {
 		Assert.assertTrue("Should show sign in page", signInPage.isSignInButtonExist(driver));
 	}
 	
+	@Category({Major.class})
 	@Test
 	public void gmailSendAndReceiveEmailTest() {
 		//1. Sign in
