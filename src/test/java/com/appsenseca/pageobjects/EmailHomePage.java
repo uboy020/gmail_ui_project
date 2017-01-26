@@ -39,8 +39,8 @@ public class EmailHomePage {
 	}
 
 	public EmailViewPage clickNewEmail(WebDriver driver) {
-		WebUtil.waitForElementVisible(driver, By.cssSelector("div[class='y6'] span[id] b"));
-		WebUtil.click(driver, By.cssSelector("div[class='y6'] span[id] b"));
+		WebUtil.waitForElementVisible(driver, By.cssSelector("div[class='y6'] b"));
+		WebUtil.click(driver, By.cssSelector("div[class='y6'] b"));
 		return PageFactory.initElements(driver, EmailViewPage.class);
 	}
 }
